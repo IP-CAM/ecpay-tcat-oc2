@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>綠界(黑貓宅配)配送模組</name>
+    <version>0.2</version>
+    <link>https://github.com/taka-wang/ecpay-tcat-oc2</link>
+    <author>Taka Wang</author>
+    <code>ecpay_tcat_shipping</code>
+
+    <file path="admin/controller/sale/order.php">
+        <operation error="skip">
+            <search><![CDATA[$data['button_commission_remove'] = $this->language->get('button_commission_remove');]]></search>
+            <add position="before"><![CDATA[$data['text_booking_note'] = $this->language->get('text_booking_note');]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA[// Payment Address]]></search>
+            <add position="before"><![CDATA[$data['is_tcat_shipping'] = (substr( $order_info['shipping_code'], 0, 4 ) === "tcat") ? true : false;]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA[$order_info['reward'];]]></search>
+            <add position="before"><![CDATA[
+            $this->load->model('shipping/tcat');
+            $ship_info = $this->model_shipping_tcat->getResult($this->request->get['order_id']);
+            if (isset($ship_info['BookingNote'])) {
+                $data['book_note'] = '<a href="http://www.t-cat.com.tw/Inquire/Trace.aspx?no=' . $ship_info['BookingNote'] . '" target="_blank">' .$ship_info['BookingNote']. '</a>';
+            } else {
+                $data['book_note'] = '<font color="#A4A4A4">' .$this->language->get('text_not_booking') . '</font>';
+            }
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/language/en-gb/sale/order.php">
+        <operation error="skip">
+            <search><![CDATA[text_payment_address]]></search>
+            <add position="before"><![CDATA[
+            $_['text_booking_note']          = 'Shipping number: ';
+            $_['text_not_booking']          = 'Not Yet..';
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/language/zh-TW/sale/order.php">
+        <operation error="skip">
+            <search><![CDATA[text_payment_address]]></search>
+            <add position="before"><![CDATA[
+            $_['text_booking_note']          = '託運單號: ';
+            $_['text_not_booking']          = '還沒產生';
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/view/template/sale/order_info.tpl">
+        <operation error="skip">
+            <search><![CDATA[data-toggle="tooltip" title="<?php echo $text_shipping_method;]]></search>
+            <add position="replace"><![CDATA[<?php if ($is_tcat_shipping) { ?> id="btn_tcat_create" <?php } ?> data-toggle="tooltip" title="<?php echo $text_shipping_method;]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA[$shipping_method; ?></td>]]></search>
+            <add position="replace"><![CDATA[$shipping_method; ?><?php if ($is_tcat_shipping) { ?> &nbsp;<font color="#f56a6b"><?php echo $text_booking_note; ?></font><?php echo $book_note; ?><?php } ?></td>]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA[$(document).delegate('#button-invoice']]></search>
+            <add position="before"><![CDATA[
+            $(document).delegate('#btn_tcat_create', 'click', function() {
+                $(location).attr('href','index.php?route=shipping/tcat/create_order_form&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>');
+            });
+            ]]></add>
+        </operation>
+    </file>
+   
+</modification>
+
