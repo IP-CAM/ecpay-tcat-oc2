@@ -44,7 +44,7 @@
                           <input type="text" name="tcat_merchant_id" id="input-merchant-id" value="<?php echo isset($merchant_id) ? $merchant_id : $help_merchant_id; ?>" placeholder="<?php echo $help_merchant_id; ?>" class="form-control" />
                           <?php if ($error_warning2) { ?>
                           <div class="text-danger"><?php echo $error_warning2; ?></div>
-                          <?php } ?>			  
+                          <?php } ?>
                       </div>
                   </div>
 
@@ -54,9 +54,9 @@
                           <input type="text" name="tcat_hash_key" id="input-hash-key" value="<?php echo isset($hash_key) ? $hash_key : $help_hash_key; ?>" placeholder="<?php echo $help_hash_key; ?>" class="form-control" />
                           <?php if ($error_warning3) { ?>
                           <div class="text-danger"><?php echo $error_warning3; ?></div>
-                          <?php } ?>				  
+                          <?php } ?>
                       </div>
-                  </div>		  
+                  </div>
 
                   <div class="form-group required">
                       <label class="col-sm-2 control-label" for="input-hash-iv"><?php echo $entry_hash_iv; ?></label>
@@ -64,9 +64,9 @@
                           <input type="text" name="tcat_hash_iv" id="input-hash-iv" value="<?php echo isset($hash_iv) ? $hash_iv : $help_hash_iv; ?>" placeholder="<?php echo $help_hash_iv; ?>" class="form-control" />
                           <?php if ($error_warning4) { ?>
                           <div class="text-danger"><?php echo $error_warning4; ?></div>
-                          <?php } ?>				  
+                          <?php } ?>
                       </div>
-                  </div>	
+                  </div>
 
                   <div class="form-group required">
                       <label class="col-sm-2 control-label" for="input-item-desc"><span data-toggle="tooltip" title="<?php echo $entry_item_desc_content; ?>"><?php echo $entry_item_desc; ?></span></label>
@@ -74,7 +74,7 @@
                           <input type="text" name="tcat_item_desc" id="input-item-desc" value="<?php echo isset($item_desc) ? $item_desc : $help_item_desc; ?>" placeholder="<?php echo $help_item_desc; ?>" class="form-control" />
                           <?php if ($error_warning5) { ?>
                           <div class="text-danger"><?php echo $error_warning5; ?></div>
-                          <?php } ?>				  
+                          <?php } ?>
                       </div>
                   </div>
 
@@ -89,7 +89,7 @@
                             <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
                             <?php } ?>
                             <?php } ?>
-                        </select>			  
+                        </select>
                     </div>
                 </div>
 
@@ -104,7 +104,7 @@
                             <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
                             <?php } ?>
                             <?php } ?>
-                        </select>			  
+                        </select>
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@
                             <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
                             <?php } ?>
                             <?php } ?>
-                        </select>			  
+                        </select>
                     </div>
                 </div>
 
@@ -130,9 +130,9 @@
                           <input type="text" name="tcat_sender_name" id="input-sender-name" value="<?php echo isset($sender_name) ? $sender_name : $help_sender_name; ?>" placeholder="<?php echo $help_sender_name; ?>" class="form-control" />
                           <?php if ($error_warning6) { ?>
                           <div class="text-danger"><?php echo $error_warning6; ?></div>
-                          <?php } ?>				  
+                          <?php } ?>
                       </div>
-                  </div>	
+                  </div>
 
                   <div class="form-group required">
                       <label class="col-sm-2 control-label" for="input-sender-phone"><?php echo $entry_sender_phone; ?></label>
@@ -140,7 +140,7 @@
                           <input type="text" name="tcat_sender_phone" id="input-sender-phone" value="<?php echo isset($sender_phone) ? $sender_phone : $help_sender_phone; ?>" placeholder="<?php echo $help_sender_phone; ?>" class="form-control" />
                           <?php if ($error_warning7) { ?>
                           <div class="text-danger"><?php echo $error_warning7; ?></div>
-                          <?php } ?>				  
+                          <?php } ?>
                       </div>
                   </div>
                   <div class="form-group required">
@@ -149,18 +149,32 @@
                           <input type="text" name="tcat_sender_zip" id="input-sender-zip" value="<?php echo isset($sender_zip) ? $sender_zip : $help_sender_zip; ?>" placeholder="<?php echo $help_sender_zip; ?>" class="form-control" />
                           <?php if ($error_warning9) { ?>
                           <div class="text-danger"><?php echo $error_warning9; ?></div>
-                          <?php } ?>				  
+                          <?php } ?>
                       </div>
-                  </div>	
+                  </div>
+                  <div class="form-group required">
+                      <label class="col-sm-2 control-label" for="input-zones"><?php echo $entry_sender_zone; ?></label>
+                      <div class="col-sm-10">
+                          <select name="tcat_sender_zone_id" id="input-zones" class="form-control">
+                              <?php foreach ($zones as $zone) { ?>
+                              <?php if ($zone['zone_id'] == $sender_zone_id) { ?>
+                              <option value="<?php echo $zone['zone_id']; ?>" selected="selected"><?php echo $zone['name']; ?></option>
+                              <?php } else { ?>
+                              <option value="<?php echo $zone['zone_id']; ?>"><?php echo $zone['name']; ?></option>
+                              <?php } ?>
+                              <?php } ?>
+                          </select>
+                      </div>
+                  </div>
                   <div class="form-group required">
                       <label class="col-sm-2 control-label" for="input-sender-address"><?php echo $entry_sender_address; ?></label>
                       <div class="col-sm-10">
                           <input type="text" name="tcat_sender_address" id="input-sender-address" value="<?php echo isset($sender_address) ? $sender_address : $help_sender_address; ?>" placeholder="<?php echo $help_sender_address; ?>" class="form-control" />
                           <?php if ($error_warning10) { ?>
                           <div class="text-danger"><?php echo $error_warning10; ?></div>
-                          <?php } ?>				  
+                          <?php } ?>
                       </div>
-                  </div>	
+                  </div>
 
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
@@ -236,4 +250,4 @@
     </div>
   </div>
 </div>
-<?php echo $footer; ?> 
+<?php echo $footer; ?>

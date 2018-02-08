@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']    = '<span style="color:#449DD0; font-weight:bold">黑貓宅急便</span>';
-$_['heading_title_clear']    = '黑貓宅急便';
+$_['heading_title']    = '<span style="color:#449DD0; font-weight:bold">綠界(黑貓宅配)運送模組</span>';
+$_['heading_title_clear']    = '綠界(黑貓宅配)運送模組';
 
 // Text
 $_['text_shipping']    = '運送';
-$_['text_success']     = '成功: 你已經修改黑貓宅急便!';
-$_['text_edit']        = '編輯黑貓宅急便';
+$_['text_success']     = '成功: 你已經修改綠界(黑貓宅配)運送模組!';
+$_['text_edit']        = '編輯綠界(黑貓宅配)運送模組';
 
 // Entry
 $_['entry_rate']       = '稅率';
@@ -23,6 +23,7 @@ $_['entry_sender_name'] = '寄件人姓名';
 $_['entry_sender_phone'] = '寄件人手機';
 $_['entry_sender_zip'] = '寄件人郵遞區號';
 $_['entry_sender_address'] = '寄件人地址';
+$_['entry_sender_zone'] = '寄件人縣市';
 $_['entry_order_status'] = '配送訂單初始狀態:';
 $_['entry_order_finish_status'] = '配送訂單建立成功狀態:';
 $_['entry_order_fail_status'] = '配送訂單建立失敗狀態:';
@@ -36,7 +37,7 @@ $_['help_item_desc'] = '一批貨';
 $_['help_sender_name'] = '張無忌';
 $_['help_sender_phone'] = '0912345678';
 $_['help_sender_zip'] = '236';
-$_['help_sender_address'] = '新北市市政府一段';
+$_['help_sender_address'] = '市政府一段234號';
 
 // Error
 $_['error_permission'] = '警告: 你沒有權限修改黑貓宅急便!';

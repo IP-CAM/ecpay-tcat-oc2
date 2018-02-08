@@ -23,6 +23,7 @@ $_['entry_sender_name'] = 'Sender Name';
 $_['entry_sender_phone'] = 'Sender Cell Phone';
 $_['entry_sender_zip'] = 'Sender Zip Code';
 $_['entry_sender_address'] = 'Sender Address';
+$_['entry_sender_zone'] = 'Sender Zone';
 $_['entry_order_status'] = 'Shipment Order Default Status:';
 $_['entry_order_finish_status'] = 'Shipment Order Finish Status:';
 $_['entry_order_fail_status'] = 'Shipment Order Fail Status:';
@@ -36,7 +37,7 @@ $_['help_item_desc'] = 'Some items';
 $_['help_sender_name'] = '張無忌';
 $_['help_sender_phone'] = '0912345678';
 $_['help_sender_zip'] = '236';
-$_['help_sender_address'] = '新北市市政府一段';
+$_['help_sender_address'] = '市政府一段234號';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify TCAT shipping!';

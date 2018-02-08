@@ -63,8 +63,18 @@ class ControllerShippingTcat extends Controller {
         $data['hash_iv'] = (isset($settings['tcat_hash_iv'])) ? $settings['tcat_hash_iv'] : '';
         $data['sender_name'] = (isset($settings['tcat_sender_name'])) ? $settings['tcat_sender_name'] : '';
         $data['sender_phone'] = (isset($settings['tcat_sender_phone'])) ? $settings['tcat_sender_phone'] : '';
-        $data['sender_address'] = (isset($settings['tcat_sender_address'])) ? $settings['tcat_sender_address'] : '';
         $data['sender_zip'] = (isset($settings['tcat_sender_zip'])) ? $settings['tcat_sender_zip'] : '';
+
+        // concatenate `zone name` with `address1`
+        $data['sender_address'] = '';
+        if (isset($settings['tcat_sender_zone_id'])) {
+            $this->load->model('shipping/tcat');
+            $zone = $this->model_shipping_tcat->getZone($settings['tcat_sender_zone_id']);
+            if (!empty($zone)) {
+                $data['sender_address'] = $zone['name'];
+            }
+        }
+        $data['sender_address'] .= (isset($settings['tcat_sender_address'])) ? $settings['tcat_sender_address'] : '';
 
         $this->load->model('shipping/tcat');
         $ship_info = $this->model_shipping_tcat->getInfo($data['order_id']);
@@ -75,13 +85,28 @@ class ControllerShippingTcat extends Controller {
         $data['total'] = (isset($order_info['total'])) ? $order_info['total'] : '';
         $data['receiver_name'] = (isset($order_info['shipping_firstname'])) ? $order_info['shipping_firstname'] : '';
         $data['receiver_phone'] = (isset($order_info['telephone'])) ? $order_info['telephone'] : '';
+        // concatenate `zone name` with `address1`
         $data['receiver_address'] = (isset($order_info['shipping_zone'])) ? $order_info['shipping_zone'] : '';
         $data['receiver_address'] .= (isset($order_info['shipping_address_1'])) ? $order_info['shipping_address_1'] : '';
         $data['receiver_zip'] = (isset($ship_info['Postcode'])) ? $ship_info['Postcode'] :
                                 (isset($order_info['shipping_postcode'])) ? $order_info['shipping_postcode'] :
                                 (isset($order_info['payment_postcode'])) ? $order_info['payment_postcode'] : '';
         $data['temperature'] = (isset($ship_info['Temperature'])) ? $ship_info['Temperature'] : '0003';
-        $data['distance'] = (isset($ship_info['Distance'])) ? $ship_info['Distance'] : '00';
+
+        // 自動設定`距離`
+        if (isset($ship_info['Distance'])) {
+            $data['distance'] = $ship_info['Distance']; // 已設定過
+        } else {
+            $data['distance'] = '00'; // 預設
+            if (isset($settings['tcat_sender_zone_id']) && isset($order_info['shipping_zone_id'])) {
+                if ((int)$settings['tcat_sender_zone_id'] == (int)$order_info['shipping_zone_id']) {
+                    $data['distance'] = '00'; // 同縣市
+                } else {
+                    $data['distance'] = '01'; // 外縣市
+                }
+            }
+        }
+
         $data['specification'] = (isset($ship_info['Specification'])) ? $ship_info['Specification'] : '0001';
         $data['delivery_time'] = (isset($ship_info['ScheduledDeliveryTime'])) ? $ship_info['ScheduledDeliveryTime'] : 4;
         $data['create_order_url'] = HTTPS_CATALOG . 'index.php?route=shipping/tcat/create_shipping_order&token=' . $this->session->data['token'] . '&order_id=' . $data['order_id'];
@@ -154,6 +179,7 @@ class ControllerShippingTcat extends Controller {
         $data['entry_sender_phone'] = $this->language->get('entry_sender_phone');
         $data['entry_sender_zip'] = $this->language->get('entry_sender_zip');
         $data['entry_sender_address'] = $this->language->get('entry_sender_address');
+        $data['entry_sender_zone'] = $this->language->get('entry_sender_zone');
 
         $data['help_rate'] = $this->language->get('help_rate');
         $data['help_merchant_id'] = $this->language->get('help_merchant_id');
@@ -176,6 +202,9 @@ class ControllerShippingTcat extends Controller {
         $data['entry_order_status'] = $this->language->get('entry_order_status');
         $data['entry_order_finish_status'] = $this->language->get('entry_order_finish_status');
         $data['entry_order_fail_status'] = $this->language->get('entry_order_fail_status');
+
+        $this->load->model('shipping/tcat');
+        $data['zones'] = $this->model_shipping_tcat->getZonesByCountryId("206"); // Taiwan
 
         // This Block returns the warning if any
         $data['error_warning'] = (isset($this->error['warning'])) ? $this->error['warning'] : '';
@@ -279,6 +308,12 @@ class ControllerShippingTcat extends Controller {
             $data['sender_zip'] = $this->request->post['tcat_sender_zip'];
         } else {
             $data['sender_zip'] = $this->config->get('tcat_sender_zip');
+        }
+
+        if (isset($this->request->post['tcat_sender_zone_id'])) {
+            $data['sender_zone_id'] = $this->request->post['tcat_sender_zone_id'];
+        } else {
+            $data['sender_zone_id'] =  $this->config->get('tcat_sender_zone_id');
         }
 
         if (isset($this->request->post['tcat_sender_address'])) {
