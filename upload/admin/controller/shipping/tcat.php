@@ -373,15 +373,27 @@ class ControllerShippingTcat extends Controller {
         return !$this->error;
     }
 
-    /* use install.sql
+
     public function install() {
+        $this->model_extension_extension->install('shipping', 'tcat');
+        $this->load->model('user/user_group');
+        if (method_exists($this->user,"getGroupId")) {
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'shipping/tcat');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'shipping/tcat');
+        }
         $this->load->model('shipping/tcat');
         $this->model_shipping_tcat->install();
     }
 
     public function uninstall() {
+        $this->model_extension_extension->uninstall('shipping', 'tcat');
+        $this->load->model('user/user_group');
+        if (method_exists($this->user,"getGroupId")) {
+            $this->model_user_user_group->removePermission($this->user->getGroupId(), 'access', 'shipping/tcat');
+            $this->model_user_user_group->removePermission($this->user->getGroupId(), 'modify', 'shipping/tcat');
+        }
         $this->load->model('shipping/tcat');
         $this->model_shipping_tcat->uninstall();
     }
-    */
+
 }
